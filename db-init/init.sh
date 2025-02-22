@@ -27,7 +27,7 @@ for file in /docker-entrypoint-initdb.d/*.sql; do
 done
 
 # Wait for the tables to be created. Check for tbl_meter_hourly as a proxy for completion.
-timeout=300
+timeout=50
 echo "Waiting for database initialization to complete..."
 while ! mysql -h localhost -u root -p"$MYSQL_ROOT_PASSWORD" -e "SHOW TABLES FROM myems LIKE 'tbl_meter_hourly';" | grep -q tbl_meter_hourly; do
   timeout=$((timeout - 1))

@@ -1,17 +1,12 @@
 -- MyEMS User Database
-
 -- ---------------------------------------------------------------------------------------------------------------------
 -- Schema myems_user_db
 -- ---------------------------------------------------------------------------------------------------------------------
-
-CREATE DATABASE IF NOT EXISTS CHARACTER SET 'utf8mb4' COLLATE 'utf8mb4_unicode_ci' ;
 USE `myems`;
-
 -- ---------------------------------------------------------------------------------------------------------------------
 -- Table structure for tbl_api_keys
 -- ---------------------------------------------------------------------------------------------------------------------
 DROP TABLE IF EXISTS `tbl_api_keys`;
-
 CREATE TABLE IF NOT EXISTS `tbl_api_keys`  (
   `id` int NOT NULL AUTO_INCREMENT,
   `name` VARCHAR(128) NOT NULL,
@@ -20,12 +15,10 @@ CREATE TABLE IF NOT EXISTS `tbl_api_keys`  (
   `expires_datetime_utc` DATETIME NOT NULL,
   PRIMARY KEY (`id`));
 CREATE INDEX `tbl_api_keys_index_1` ON `tbl_api_keys` (`created_datetime_utc`, `name`);
-
 -- ---------------------------------------------------------------------------------------------------------------------
 -- Table `tbl_email_messages`
 -- ---------------------------------------------------------------------------------------------------------------------
 DROP TABLE IF EXISTS `tbl_email_messages`;
-
 CREATE TABLE IF NOT EXISTS `tbl_email_messages`  (
   `id` BIGINT NOT NULL AUTO_INCREMENT,
   `recipient_name` VARCHAR(128) NOT NULL,
@@ -39,12 +32,10 @@ CREATE TABLE IF NOT EXISTS `tbl_email_messages`  (
   `status` VARCHAR(32) NOT NULL COMMENT 'new, sent, timeout',
   PRIMARY KEY (`id`));
 CREATE INDEX `tbl_email_messages_index_1` ON `tbl_email_messages` (`status`, `scheduled_datetime_utc`);
-
 -- ---------------------------------------------------------------------------------------------------------------------
 -- Table `tbl_email_message_sessions`
 -- ---------------------------------------------------------------------------------------------------------------------
 DROP TABLE IF EXISTS `tbl_email_message_sessions`;
-
 CREATE TABLE IF NOT EXISTS `tbl_email_message_sessions`  (
   `id` BIGINT NOT NULL AUTO_INCREMENT,
   `recipient_email` VARCHAR(128) NOT NULL,
@@ -52,12 +43,10 @@ CREATE TABLE IF NOT EXISTS `tbl_email_message_sessions`  (
   `expires_datetime_utc` DATETIME NOT NULL,
   PRIMARY KEY (`id`));
 CREATE INDEX `tbl_email_message_sessions_index_1` ON `tbl_email_message_sessions` (`recipient_email`);
-
 -- ---------------------------------------------------------------------------------------------------------------------
 -- Table `tbl_users`
 -- ---------------------------------------------------------------------------------------------------------------------
 DROP TABLE IF EXISTS `tbl_users` ;
-
 CREATE TABLE IF NOT EXISTS `tbl_users` (
   `id` BIGINT NOT NULL AUTO_INCREMENT,
   `name` VARCHAR(128) NOT NULL,
@@ -73,7 +62,6 @@ CREATE TABLE IF NOT EXISTS `tbl_users` (
   `password_expiration_datetime_utc` DATETIME NOT NULL,
   `failed_login_count` INT NOT NULL DEFAULT 0,
   PRIMARY KEY (`id`));
-
 -- --------------------------------------------------------------------------------------------------------------------
 -- Example Data for table `tbl_users`
 -- --------------------------------------------------------------------------------------------------------------------
@@ -86,35 +74,29 @@ VALUES
  'adfd6fb6d78d4e3780ebdd6afdec2c3a',
  'bc00df65270b1a72b9ed37136fa95a695896edc8c114391821f5edc6b1bbdbabc3d449962f8d1c7a4ec3f2d0a1a79055623963d88ecb9b778423194ff7b6be42',
  1, NULL, '2099-12-31 16:00:00', '2099-12-31 16:00:00', 0);
-
 -- ---------------------------------------------------------------------------------------------------------------------
 -- Table `tbl_privileges`
 -- ---------------------------------------------------------------------------------------------------------------------
 DROP TABLE IF EXISTS `tbl_privileges` ;
-
 CREATE TABLE IF NOT EXISTS `tbl_privileges` (
   `id` BIGINT NOT NULL AUTO_INCREMENT,
   `name` VARCHAR(45) NOT NULL,
   `data` LONGTEXT NOT NULL COMMENT 'MUST be in JSON format',
   PRIMARY KEY (`id`));
-
 -- ---------------------------------------------------------------------------------------------------------------------
 -- Table `tbl_sessions`
 -- ---------------------------------------------------------------------------------------------------------------------
 DROP TABLE IF EXISTS `tbl_sessions` ;
-
 CREATE TABLE IF NOT EXISTS `tbl_sessions` (
   `id` BIGINT NOT NULL AUTO_INCREMENT,
   `user_uuid` CHAR(36) NOT NULL,
   `token` VARCHAR(128) NOT NULL,
   `utc_expires` DATETIME NOT NULL,
   PRIMARY KEY (`id`));
-
 -- ---------------------------------------------------------------------------------------------------------------------
 -- Table `tbl_logs`
 -- ---------------------------------------------------------------------------------------------------------------------
 DROP TABLE IF EXISTS `tbl_logs` ;
-
 CREATE TABLE IF NOT EXISTS `tbl_logs` (
   `id` BIGINT NOT NULL AUTO_INCREMENT,
   `user_uuid` CHAR(36) NOT NULL,
@@ -125,12 +107,10 @@ CREATE TABLE IF NOT EXISTS `tbl_logs` (
   `request_body` LONGTEXT NULL COMMENT 'MUST be in JSON format',
   PRIMARY KEY (`id`));
 CREATE INDEX `tbl_logs_index_1` ON `tbl_logs` (`user_uuid`, `request_datetime_utc`, `request_method`);
-
 -- ---------------------------------------------------------------------------------------------------------------------
 -- Table `tbl_new_users`
 -- ---------------------------------------------------------------------------------------------------------------------
 DROP TABLE IF EXISTS `tbl_new_users` ;
-
 CREATE TABLE IF NOT EXISTS `tbl_new_users` (
   `id` BIGINT NOT NULL AUTO_INCREMENT,
   `name` VARCHAR(128) NOT NULL,
@@ -140,12 +120,10 @@ CREATE TABLE IF NOT EXISTS `tbl_new_users` (
   `salt` VARCHAR(128) NOT NULL,
   `password` VARCHAR(256) NOT NULL,
   PRIMARY KEY (`id`));
-
 -- ---------------------------------------------------------------------------------------------------------------------
 -- Table `tbl_notifications`
 -- ---------------------------------------------------------------------------------------------------------------------
 DROP TABLE IF EXISTS `tbl_notifications` ;
-
 CREATE TABLE IF NOT EXISTS `tbl_notifications` (
   `id` BIGINT NOT NULL AUTO_INCREMENT,
   `user_id` BIGINT NOT NULL,
@@ -157,12 +135,10 @@ CREATE TABLE IF NOT EXISTS `tbl_notifications` (
   PRIMARY KEY (`id`));
 CREATE INDEX `tbl_notifications_index_1`
 ON `tbl_notifications` (`user_id`, `created_datetime_utc`, `status`);
-
 -- ---------------------------------------------------------------------------------------------------------------------
 -- Table structure for tbl_verification_codes
 -- ---------------------------------------------------------------------------------------------------------------------
 DROP TABLE IF EXISTS `tbl_verification_codes`;
-
 CREATE TABLE IF NOT EXISTS `tbl_verification_codes`  (
   `id` int NOT NULL AUTO_INCREMENT,
   `recipient_email` VARCHAR(128) NOT NULL,

@@ -1,17 +1,12 @@
 -- MyEMS Fault Detection and Diagnostics Database
-
 -- ---------------------------------------------------------------------------------------------------------------------
 -- Schema myems_fdd_db
 -- ---------------------------------------------------------------------------------------------------------------------
-DROP DATABASE IF EXISTS 
-CREATE DATABASE IF NOT EXISTS CHARACTER SET 'utf8mb4' COLLATE 'utf8mb4_unicode_ci' ;
-USE 
-
+USE `myems`;
 -- ---------------------------------------------------------------------------------------------------------------------
 -- Table `tbl_email_messages`
 -- ---------------------------------------------------------------------------------------------------------------------
 DROP TABLE IF EXISTS `tbl_email_messages`;
-
 CREATE TABLE IF NOT EXISTS `tbl_email_messages` (
   `id` BIGINT NOT NULL AUTO_INCREMENT,
   `rule_id` BIGINT NOT NULL,
@@ -26,12 +21,10 @@ CREATE TABLE IF NOT EXISTS `tbl_email_messages` (
   `status` VARCHAR(32) NOT NULL COMMENT 'new, sent, timeout',
   PRIMARY KEY (`id`));
 CREATE INDEX `tbl_email_messages_index_1` ON `tbl_email_messages` (`status`, `scheduled_datetime_utc`);
-
 -- ---------------------------------------------------------------------------------------------------------------------
 -- Table `tbl_rules`
 -- ---------------------------------------------------------------------------------------------------------------------
 DROP TABLE IF EXISTS `tbl_rules`;
-
 CREATE TABLE IF NOT EXISTS `tbl_rules` (
   `id` BIGINT NOT NULL AUTO_INCREMENT,
   `name` VARCHAR(128) NOT NULL,
@@ -50,12 +43,10 @@ CREATE TABLE IF NOT EXISTS `tbl_rules` (
   `is_run_immediately` BOOL NOT NULL,
   PRIMARY KEY (`id`));
 CREATE INDEX `tbl_rules_index_1` ON `tbl_rules` (`name`);
-
 -- ----------------------------------------------------------------------------------
 -- Table `tbl_email_servers`
 -- ----------------------------------------------------------------------------------
 DROP TABLE IF EXISTS `tbl_email_servers`;
-
 CREATE TABLE IF NOT EXISTS `tbl_email_servers` (
   `id` BIGINT NOT NULL AUTO_INCREMENT,
   `host` VARCHAR(255) NOT NULL,
@@ -65,7 +56,6 @@ CREATE TABLE IF NOT EXISTS `tbl_email_servers` (
   `password` VARCHAR(255),
   `from_addr` VARCHAR(255) NOT NULL,
   PRIMARY KEY (`id`));
-
 -- ----------------------------------------------------------------------------------
 -- Data for table `tbl_email_servers`
 -- ----------------------------------------------------------------------------------
@@ -73,12 +63,10 @@ INSERT INTO `tbl_email_servers`
 (`id`, `host`, `port`, `requires_authentication`, `user_name`, `password`, `from_addr`)
 VALUES
 (1, 'smtp.163.com', 25, true, 'myems', 'bXllbXM=', 'myems@163.com');
-
 -- ----------------------------------------------------------------------------------
 -- Table `tbl_text_messages_outbox`
 -- ----------------------------------------------------------------------------------
 DROP TABLE IF EXISTS `tbl_text_messages_outbox`;
-
 CREATE TABLE IF NOT EXISTS `tbl_text_messages_outbox` (
   `id` BIGINT NOT NULL AUTO_INCREMENT,
   `rule_id` BIGINT NOT NULL,
@@ -92,12 +80,10 @@ CREATE TABLE IF NOT EXISTS `tbl_text_messages_outbox` (
   PRIMARY KEY (`id`));
 CREATE INDEX `tbl_text_messages_outbox_index_1`
 ON `tbl_text_messages_outbox` (`status`, `scheduled_datetime_utc`);
-
 -- ----------------------------------------------------------------------------------
 -- Table `tbl_text_messages_inbox`
 -- ----------------------------------------------------------------------------------
 DROP TABLE IF EXISTS `tbl_text_messages_inbox`;
-
 CREATE TABLE IF NOT EXISTS `tbl_text_messages_inbox` (
   `id` BIGINT NOT NULL AUTO_INCREMENT,
   `sender_mobile` VARCHAR(32) NOT NULL,
@@ -106,13 +92,10 @@ CREATE TABLE IF NOT EXISTS `tbl_text_messages_inbox` (
   `status` VARCHAR(32) NOT NULL COMMENT 'new, done',
   PRIMARY KEY (`id`));
 CREATE INDEX `tbl_text_messages_inbox_index_1` ON `tbl_text_messages_inbox` (`status`);
-
-
 -- ----------------------------------------------------------------------------------
 -- Table `tbl_web_messages`
 -- ----------------------------------------------------------------------------------
 DROP TABLE IF EXISTS `tbl_web_messages`;
-
 CREATE TABLE IF NOT EXISTS `tbl_web_messages` (
   `id` BIGINT NOT NULL AUTO_INCREMENT,
   `rule_id` BIGINT NOT NULL,
@@ -134,13 +117,11 @@ CREATE TABLE IF NOT EXISTS `tbl_web_messages` (
   PRIMARY KEY (`id`));
 CREATE INDEX `tbl_web_messages_index_1`
 ON `tbl_web_messages` (`user_id`, `status`, `created_datetime_utc`);
-
 -- ----------------------------------------------------------------------------------
 -- Table `tbl_wechat_configs`
 -- refer to https://mp.weixin.qq.com/
 -- ----------------------------------------------------------------------------------
 DROP TABLE IF EXISTS `tbl_wechat_configs`;
-
 CREATE TABLE IF NOT EXISTS `tbl_wechat_configs` (
   `id` BIGINT NOT NULL AUTO_INCREMENT,
   `api_server` VARCHAR(255) NOT NULL, -- WeChat Official Account Platform's API Server
@@ -149,12 +130,10 @@ CREATE TABLE IF NOT EXISTS `tbl_wechat_configs` (
   `access_token` VARCHAR(512), -- Encoded ACCESS_TOKEN
   `expires_datetime_utc` DATETIME NOT NULL, -- ACCESS_TOKEN will expire at this datetime in UTC
   PRIMARY KEY (`id`));
-
 -- ----------------------------------------------------------------------------------
 -- Table `tbl_wechat_messages_outbox`
 -- ----------------------------------------------------------------------------------
 DROP TABLE IF EXISTS `tbl_wechat_messages_outbox`;
-
 CREATE TABLE IF NOT EXISTS `tbl_wechat_messages_outbox` (
   `id` BIGINT NOT NULL AUTO_INCREMENT,
   `rule_id` BIGINT NOT NULL,
@@ -169,12 +148,10 @@ CREATE TABLE IF NOT EXISTS `tbl_wechat_messages_outbox` (
   PRIMARY KEY (`id`));
 CREATE INDEX `tbl_wechat_messages_outbox_index_1`
 ON `tbl_wechat_messages_outbox` (`status`, `scheduled_datetime_utc`);
-
 -- ----------------------------------------------------------------------------------
 -- Table `tbl_wechat_messages_inbox`
 -- ----------------------------------------------------------------------------------
 DROP TABLE IF EXISTS `tbl_wechat_messages_inbox`;
-
 CREATE TABLE IF NOT EXISTS `tbl_wechat_messages_inbox` (
   `id` BIGINT NOT NULL AUTO_INCREMENT,
   `sender_openid` VARCHAR(32) NOT NULL,
@@ -183,5 +160,4 @@ CREATE TABLE IF NOT EXISTS `tbl_wechat_messages_inbox` (
   `status` VARCHAR(32) NOT NULL COMMENT 'new, done',
   PRIMARY KEY (`id`));
 CREATE INDEX `tbl_wechat_messages_inbox_index_1` ON `tbl_wechat_messages_inbox` (`status`);
-
 COMMIT;
